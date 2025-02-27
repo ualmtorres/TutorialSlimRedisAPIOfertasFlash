@@ -113,7 +113,7 @@ services:
 
 ### Servicios
 
-- **Redis**: Servicio de base de datos en memoria que se utiliza para almacenar las ofertas flash y las reservas. Se expone en los puertos `6379` y `8001`. Incluye un volumen que mapea el directorio `./redis-data` al directorio de datos de Redis.
+- **Redis**: Servicio de base de datos en memoria que se utiliza para almacenar las ofertas flash y las reservas. Se expone en los puertos `6379` (servidor Redis) y `8001` (Redis insight, una interfaz web gráfica para Redis). Incluye un volumen que mapea el directorio `./redis-data` al directorio de datos de Redis.
 - **PHP**: Servicio que ejecuta la aplicación Slim. Se construye a partir del contexto `./docker/php` y se expone en el puerto `9000`. Incluye un volumen que mapea el directorio actual al directorio de la aplicación Slim. El código fuente de la aplicación Slim se encuentra en el directorio `./public`.
 - **Nginx**: Servidor web que sirve la aplicación Slim. Se expone en el puerto `8080` y depende del servicio PHP.
 
@@ -146,7 +146,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 [NOTE]
 ====
-Cuando PHPRedis se instala como extensión de PHP, no es necesario añadir la depedenencia en el archivo `composer.json` de la aplicación Slim. La extensión PHPRedis se puede utilizar directamente en el código PHP de la aplicación Slim.
+Cuando PHPRedis se instala como extensión de PHP, no es necesario añadir la dependencia en el archivo `composer.json` de la aplicación Slim. La extensión PHPRedis se puede utilizar directamente en el código PHP de la aplicación Slim.
 ====
 ****
 
@@ -155,20 +155,17 @@ Cuando PHPRedis se instala como extensión de PHP, no es necesario añadir la de
 Para instalar y ejecutar la aplicación, sigue estos pasos:
 
 1. Clona el repositorio:
-
++
 ```bash
 git clone https://github.com/ualmtorres/SlimRedisAPIOfertasFlash.git
 cd SlimRedisAPIOfertasFlash
 ```
-
 2. Ejecuta Docker Compose para levantar los servicios:
-
++
 ```bash
 docker-compose up -d
 ```
-
 3. Accede a la documentación de la API REST en `http://localhost:8080`.
-
 4. Accede a los endpoints de la API REST en `http://localhost:8080/api`.
 
 Con estos pasos, tendrás el entorno de desarrollo configurado y la API REST en funcionamiento.
@@ -190,7 +187,7 @@ Para conectarse a un servidor Redis, primero debes crear una instancia de la cla
 $redis = new Redis();
 $redis->connect('redis', 6379); <1>
 ```
-<1> Conecta a Redis en el host `redis` y el puerto `6379`.
+<1> Conecta a Redis en el host `redis` y el puerto `6379`. En este caso, `redis`` se refiere al nombre del servicio Redis definido en el archivo `docker-compose.yml`
 
 ### Operaciones básicas
 
@@ -268,7 +265,7 @@ A continuación se describen los endpoints disponibles en la API REST para gesti
 - `GET /api/offers/{product_id}/reservations`: Obtener la lista de usuarios con reserva en una oferta.
 - `DELETE /api/offers/{product_id}`: Eliminar una oferta.
 
-#### Ejemplo de JSON de una oferta
+#### Ejemplo de JSON para crear una oferta
 
 ```json
 {
@@ -279,7 +276,7 @@ A continuación se describen los endpoints disponibles en la API REST para gesti
 }
 ```
 
-#### Ejemplo de JSON de una reserva
+#### Ejemplo de JSON para crear una reserva
 
 ```json
 {
@@ -289,19 +286,7 @@ A continuación se describen los endpoints disponibles en la API REST para gesti
 
 ### Implementación de la API
 
-En esta sección, vamos a implementar la API REST para gestionar ofertas flash utilizando Slim Framework y Redis. Seguiremos un enfoque incremental, comenzando con la configuración general y luego desarrollando cada endpoint paso a paso.
-
-#### Configuración general
-
-Primero, necesitamos configurar nuestro entorno de desarrollo. Asegúrate de tener Docker y Docker Compose instalados. Luego, clona el repositorio y ejecuta Docker Compose para levantar los servicios:
-
-```bash
-git clone https://github.com/ualmtorres/SlimRedisAPIOfertasFlash.git
-cd SlimRedisAPIOfertasFlash
-docker-compose up -d
-```
-
-Esto levantará los servicios de Redis, PHP y Nginx definidos en el archivo `docker-compose.yml`.
+En esta sección vamos a implementar la API REST para gestionar ofertas flash utilizando Slim Framework y Redis. Seguiremos un enfoque incremental, comenzando con la configuración general y luego desarrollando cada endpoint paso a paso.
 
 #### Crear la aplicación Slim
 

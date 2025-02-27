@@ -630,7 +630,7 @@ services:
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Redis</strong>: Servicio de base de datos en memoria que se utiliza para almacenar las ofertas flash y las reservas. Se expone en los puertos <code>6379</code> y <code>8001</code>. Incluye un volumen que mapea el directorio <code>./redis-data</code> al directorio de datos de Redis.</p>
+<p><strong>Redis</strong>: Servicio de base de datos en memoria que se utiliza para almacenar las ofertas flash y las reservas. Se expone en los puertos <code>6379</code> (servidor Redis) y <code>8001</code> (Redis insight, una interfaz web gráfica para Redis). Incluye un volumen que mapea el directorio <code>./redis-data</code> al directorio de datos de Redis.</p>
 </li>
 <li>
 <p><strong>PHP</strong>: Servicio que ejecuta la aplicación Slim. Se construye a partir del contexto <code>./docker/php</code> y se expone en el puerto <code>9000</code>. Incluye un volumen que mapea el directorio actual al directorio de la aplicación Slim. El código fuente de la aplicación Slim se encuentra en el directorio <code>./public</code>.</p>
@@ -685,7 +685,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 </td>
 <td class="content">
 <div class="paragraph">
-<p>Cuando PHPRedis se instala como extensión de PHP, no es necesario añadir la depedenencia en el archivo <code>composer.json</code> de la aplicación Slim. La extensión PHPRedis se puede utilizar directamente en el código PHP de la aplicación Slim.</p>
+<p>Cuando PHPRedis se instala como extensión de PHP, no es necesario añadir la dependencia en el archivo <code>composer.json</code> de la aplicación Slim. La extensión PHPRedis se puede utilizar directamente en el código PHP de la aplicación Slim.</p>
 </div>
 </td>
 </tr>
@@ -703,29 +703,21 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 <ol class="arabic">
 <li>
 <p>Clona el repositorio:</p>
-</li>
-</ol>
-</div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-bash" data-lang="bash">git clone https://github.com/ualmtorres/SlimRedisAPIOfertasFlash.git
 cd SlimRedisAPIOfertasFlash</code></pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>Ejecuta Docker Compose para levantar los servicios:</p>
-</li>
-</ol>
-</div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-bash" data-lang="bash">docker-compose up -d</code></pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>Accede a la documentación de la API REST en <code><a href="http://localhost:8080" class="bare">http://localhost:8080</a></code>.</p>
 </li>
@@ -774,7 +766,7 @@ $redis-&gt;connect('redis', 6379); <b class="conum">(1)</b></code></pre>
 <div class="colist arabic">
 <ol>
 <li>
-<p>Conecta a Redis en el host <code>redis</code> y el puerto <code>6379</code>.</p>
+<p>Conecta a Redis en el host <code>redis</code> y el puerto <code>6379</code>. En este caso, <code>redis`</code> se refiere al nombre del servicio Redis definido en el archivo <code>docker-compose.yml</code></p>
 </li>
 </ol>
 </div>
@@ -891,7 +883,7 @@ echo $field2; // Output: value2</code></pre>
 </ul>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_json_de_una_oferta">5.1.1. Ejemplo de JSON de una oferta</h4>
+<h4 id="_ejemplo_de_json_para_crear_una_oferta">5.1.1. Ejemplo de JSON para crear una oferta</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-json" data-lang="json">{
@@ -904,7 +896,7 @@ echo $field2; // Output: value2</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_json_de_una_reserva">5.1.2. Ejemplo de JSON de una reserva</h4>
+<h4 id="_ejemplo_de_json_para_crear_una_reserva">5.1.2. Ejemplo de JSON para crear una reserva</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-json" data-lang="json">{
@@ -917,26 +909,10 @@ echo $field2; // Output: value2</code></pre>
 <div class="sect2">
 <h3 id="_implementación_de_la_api">5.2. Implementación de la API</h3>
 <div class="paragraph">
-<p>En esta sección, vamos a implementar la API REST para gestionar ofertas flash utilizando Slim Framework y Redis. Seguiremos un enfoque incremental, comenzando con la configuración general y luego desarrollando cada endpoint paso a paso.</p>
+<p>En esta sección vamos a implementar la API REST para gestionar ofertas flash utilizando Slim Framework y Redis. Seguiremos un enfoque incremental, comenzando con la configuración general y luego desarrollando cada endpoint paso a paso.</p>
 </div>
 <div class="sect3">
-<h4 id="_configuración_general">5.2.1. Configuración general</h4>
-<div class="paragraph">
-<p>Primero, necesitamos configurar nuestro entorno de desarrollo. Asegúrate de tener Docker y Docker Compose instalados. Luego, clona el repositorio y ejecuta Docker Compose para levantar los servicios:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">git clone https://github.com/ualmtorres/SlimRedisAPIOfertasFlash.git
-cd SlimRedisAPIOfertasFlash
-docker-compose up -d</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Esto levantará los servicios de Redis, PHP y Nginx definidos en el archivo <code>docker-compose.yml</code>.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_crear_la_aplicación_slim">5.2.2. Crear la aplicación Slim</h4>
+<h4 id="_crear_la_aplicación_slim">5.2.1. Crear la aplicación Slim</h4>
 <div class="paragraph">
 <p>Crea un archivo <code>public/index.php</code> y añade el siguiente código para configurar la aplicación Slim y conectar a Redis:</p>
 </div>
@@ -1021,7 +997,7 @@ $app-&gt;run();</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_endpoint_de_prueba">5.2.3. Endpoint de prueba</h4>
+<h4 id="_endpoint_de_prueba">5.2.2. Endpoint de prueba</h4>
 <div class="paragraph">
 <p>Añade el siguiente código para definir un endpoint de prueba <code>GET /api/test</code> que devuelve un mensaje de prueba:</p>
 </div>
@@ -1040,7 +1016,7 @@ $app-&gt;get($prefix . '/test', function (RequestInterface $request, ResponseInt
 </div>
 </div>
 <div class="sect3">
-<h4 id="_endpoint_para_crear_una_nueva_oferta">5.2.4. Endpoint para crear una nueva oferta</h4>
+<h4 id="_endpoint_para_crear_una_nueva_oferta">5.2.3. Endpoint para crear una nueva oferta</h4>
 <div class="paragraph">
 <p>Añade el siguiente código para definir el endpoint <code>POST /api/offers</code> que permite crear una nueva oferta. Este endpoint recibe los datos de la oferta en el cuerpo de la solicitud y los almacena en Redis. En el cuerpo de la solicitud, se deben proporcionar los siguientes campos: <code>product_id</code>, <code>discount</code>, <code>stock</code> y <code>expires_in</code>. El campo <code>expires_in</code> representa el tiempo de expiración de la oferta en segundos. El endpoint devuelve un mensaje de éxito junto con los detalles de la oferta creada. Redis almacena los datos de la oferta en un hash con la clave <code>offer:{product_id}</code>. La operación Redis que se usaría para almacenar los datos de la oferta sería similar a la siguiente:</p>
 </div>
@@ -1100,7 +1076,7 @@ $app-&gt;post($prefix . '/offers', function (RequestInterface $request, Response
 </div>
 </div>
 <div class="sect3">
-<h4 id="_endpoint_para_obtener_detalles_de_una_oferta">5.2.5. Endpoint para obtener detalles de una oferta</h4>
+<h4 id="_endpoint_para_obtener_detalles_de_una_oferta">5.2.4. Endpoint para obtener detalles de una oferta</h4>
 <div class="paragraph">
 <p>Añade el siguiente código para definir el endpoint <code>GET /api/offers/{product_id}</code> que permite obtener detalles de una oferta. Este endpoint recibe el <code>product_id</code> de la oferta como parámetro y devuelve los detalles de la oferta junto con el tiempo restante para que la oferta expire. Redis almacena los datos de la oferta en un hash con la clave <code>offer:{product_id}</code>. La operación Redis que se usaría para obtener los detalles de la oferta sería similar a la siguiente:</p>
 </div>
@@ -1139,7 +1115,7 @@ $app-&gt;get($prefix . '/offers/{product_id}', function (RequestInterface $reque
 </div>
 </div>
 <div class="sect3">
-<h4 id="_endpoint_para_reservar_un_producto_en_oferta">5.2.6. Endpoint para reservar un producto en oferta</h4>
+<h4 id="_endpoint_para_reservar_un_producto_en_oferta">5.2.5. Endpoint para reservar un producto en oferta</h4>
 <div class="paragraph">
 <p>Añade el siguiente código para definir el endpoint <code>POST /api/offers/{product_id}/reserve</code> que permite reservar un producto en oferta. Este endpoint recibe el <code>product_id</code> de la oferta en la URL y el <code>user_id</code> del usuario que realiza la reserva en el cuerpo de la solicitud. Comprueba si la oferta tiene stock disponible y, si es así, disminuye el stock y añade la reserva a la lista de reservas asociadas a la oferta. Redis almacena el stock de la oferta en un hash con la clave <code>offer:{product_id}</code> y las reservas en una lista con la clave <code>offer:{product_id}:reservations</code>. La operación Redis que se usaría para reservar un producto en oferta sería similar a la siguiente:</p>
 </div>
@@ -1219,7 +1195,7 @@ $app-&gt;post($prefix . '/offers/{product_id}/reserve', function (RequestInterfa
 </div>
 </div>
 <div class="sect3">
-<h4 id="_endpoint_para_obtener_la_lista_de_usuarios_con_reserva_en_una_oferta">5.2.7. Endpoint para obtener la lista de usuarios con reserva en una oferta</h4>
+<h4 id="_endpoint_para_obtener_la_lista_de_usuarios_con_reserva_en_una_oferta">5.2.6. Endpoint para obtener la lista de usuarios con reserva en una oferta</h4>
 <div class="paragraph">
 <p>Añade el siguiente código para definir el endpoint <code>GET /api/offers/{product_id}/reservations</code> que permite obtener la lista de usuarios con reserva en una oferta. Este endpoint recibe el <code>product_id</code> de la oferta como parámetro y devuelve la lista de usuarios con reserva. Redis almacena las reservas en una lista con la clave <code>offer:{product_id}:reservations</code>. La operación Redis que se usaría para obtener la lista de usuarios con reserva sería similar a la siguiente:</p>
 </div>
@@ -1256,7 +1232,7 @@ $app-&gt;get($prefix . '/offers/{product_id}/reservations', function (RequestInt
 </div>
 </div>
 <div class="sect3">
-<h4 id="_endpoint_para_eliminar_una_oferta">5.2.8. Endpoint para eliminar una oferta</h4>
+<h4 id="_endpoint_para_eliminar_una_oferta">5.2.7. Endpoint para eliminar una oferta</h4>
 <div class="paragraph">
 <p>Añade el siguiente código para definir el endpoint <code>DELETE /api/offers/{product_id}</code> que permite eliminar una oferta. Este endpoint recibe el <code>product_id</code> de la oferta como parámetro y elimina la oferta y las reservas asociadas en Redis. Redis almacena los datos de la oferta en un hash con la clave <code>offer:{product_id}</code> y las reservas en una lista con la clave <code>offer:{product_id}:reservations</code>. La operación Redis que se usaría para eliminar una oferta sería similar a la siguiente:</p>
 </div>
@@ -1296,7 +1272,7 @@ $app-&gt;delete($prefix . '/offers/{product_id}', function (RequestInterface $re
 </div>
 </div>
 <div class="sect3">
-<h4 id="_interceptar_todas_las_rutas_no_definidas">5.2.9. Interceptar todas las rutas no definidas</h4>
+<h4 id="_interceptar_todas_las_rutas_no_definidas">5.2.8. Interceptar todas las rutas no definidas</h4>
 <div class="paragraph">
 <p>Añade el siguiente código para interceptar todas las rutas no definidas y devolver un mensaje de error:</p>
 </div>
@@ -1420,7 +1396,7 @@ $app-&gt;any('{routes:.+}', function (RequestInterface $request, ResponseInterfa
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-02-27 00:34:10 +0100
+Last updated 2025-02-27 13:32:31 +0100
 </div>
 </div>
 </body>
