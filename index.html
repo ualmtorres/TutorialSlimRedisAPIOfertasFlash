@@ -434,6 +434,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
 </head>
 <body class="book toc2 toc-right">
 <div id="header">
@@ -515,7 +517,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <table>
 <tr>
 <td class="icon">
-<div class="title">Tip</div>
+<i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
 <div class="paragraph">
@@ -592,7 +594,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-yaml" data-lang="yaml">version: "3.8"
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">version: "3.8"
 
 services:
   redis:
@@ -648,15 +650,15 @@ services:
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-docker" data-lang="docker">FROM php:8.1-fpm
+<pre class="highlightjs highlight"><code class="language-docker hljs" data-lang="docker">FROM php:8.1-fpm
 
 RUN apt update \
     &amp;&amp; apt install -y zlib1g-dev g++ git libicu-dev zip libzip-dev zip libpq-dev \
     &amp;&amp; docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     &amp;&amp; docker-php-ext-install intl opcache pdo pdo_pgsql \
     &amp;&amp; pecl install apcu \
-    &amp;&amp; printf "\n" | pecl install redis \ <b class="conum">(1)</b>
-    &amp;&amp; docker-php-ext-enable redis \ <b class="conum">(2)</b>
+    &amp;&amp; printf "\n" | pecl install redis \ <i class="conum" data-value="1"></i><b>(1)</b>
+    &amp;&amp; docker-php-ext-enable redis \ <i class="conum" data-value="2"></i><b>(2)</b>
     &amp;&amp; docker-php-ext-enable apcu \
     &amp;&amp; docker-php-ext-configure zip \
     &amp;&amp; docker-php-ext-install zip
@@ -668,20 +670,22 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 </div>
 </div>
 <div class="colist arabic">
-<ol>
-<li>
-<p>Instala la extensión PHPRedis.</p>
-</li>
-<li>
-<p>Habilita la extensión PHPRedis.</p>
-</li>
-</ol>
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Instala la extensión PHPRedis.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Habilita la extensión PHPRedis.</td>
+</tr>
+</table>
 </div>
 <div class="admonitionblock note">
 <table>
 <tr>
 <td class="icon">
-<div class="title">Note</div>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
 <div class="paragraph">
@@ -705,7 +709,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 <p>Clona el repositorio:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">git clone https://github.com/ualmtorres/SlimRedisAPIOfertasFlash.git
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git clone https://github.com/ualmtorres/SlimRedisAPIOfertasFlash.git
 cd SlimRedisAPIOfertasFlash</code></pre>
 </div>
 </div>
@@ -714,7 +718,7 @@ cd SlimRedisAPIOfertasFlash</code></pre>
 <p>Ejecuta Docker Compose para levantar los servicios:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">docker-compose up -d</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker-compose up -d</code></pre>
 </div>
 </div>
 </li>
@@ -742,7 +746,7 @@ cd SlimRedisAPIOfertasFlash</code></pre>
 <table>
 <tr>
 <td class="icon">
-<div class="title">Tip</div>
+<i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
 <div class="paragraph">
@@ -759,16 +763,17 @@ cd SlimRedisAPIOfertasFlash</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-php" data-lang="php">$redis = new Redis();
-$redis-&gt;connect('redis', 6379); <b class="conum">(1)</b></code></pre>
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">$redis = new Redis();
+$redis-&gt;connect('redis', 6379); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
-<ol>
-<li>
-<p>Conecta a Redis en el host <code>redis</code> y el puerto <code>6379</code>. En este caso, <code>redis`</code> se refiere al nombre del servicio Redis definido en el archivo <code>docker-compose.yml</code></p>
-</li>
-</ol>
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Conecta a Redis en el host <code>redis</code> y el puerto <code>6379</code>. En este caso, <code>redis`</code> se refiere al nombre del servicio Redis definido en el archivo <code>docker-compose.yml</code></td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -780,7 +785,7 @@ $redis-&gt;connect('redis', 6379); <b class="conum">(1)</b></code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-php" data-lang="php">$redis-&gt;set('key', 'value');
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">$redis-&gt;set('key', 'value');
 $value = $redis-&gt;get('key');
 echo $value; // Output: value</code></pre>
 </div>
@@ -793,7 +798,7 @@ echo $value; // Output: value</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-php" data-lang="php">$redis-&gt;set('counter', 1);
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">$redis-&gt;set('counter', 1);
 $redis-&gt;incr('counter');
 echo $redis-&gt;get('counter'); // Output: 2
 $redis-&gt;decr('counter');
@@ -808,7 +813,7 @@ echo $redis-&gt;get('counter'); // Output: 1</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-php" data-lang="php">$redis-&gt;lPush('list', 'value1');
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">$redis-&gt;lPush('list', 'value1');
 $redis-&gt;rPush('list', 'value2');
 $list = $redis-&gt;lRange('list', 0, -1);
 print_r($list); // Output: Array ( [0] =&gt; value1 [1] =&gt; value2 )</code></pre>
@@ -822,7 +827,7 @@ print_r($list); // Output: Array ( [0] =&gt; value1 [1] =&gt; value2 )</code></p
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-php" data-lang="php">$redis-&gt;hSet('hash', 'field1', 'value1');
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">$redis-&gt;hSet('hash', 'field1', 'value1');
 $redis-&gt;hSet('hash', 'field2', 'value2');
 $field1 = $redis-&gt;hGet('hash', 'field1');
 $field2 = $redis-&gt;hGet('hash', 'field2');
@@ -839,7 +844,7 @@ echo $field2; // Output: value2</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-php" data-lang="php">try {
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">try {
     $redis-&gt;connect('redis', 6379);
 } catch (RedisException $e) {
     echo 'Error: ' . $e-&gt;getMessage();
@@ -886,7 +891,7 @@ echo $field2; // Output: value2</code></pre>
 <h4 id="_ejemplo_de_json_para_crear_una_oferta">5.1.1. Ejemplo de JSON para crear una oferta</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-json" data-lang="json">{
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
     "product_id": "123",
     "discount": "30",
     "stock": "100",
@@ -899,7 +904,7 @@ echo $field2; // Output: value2</code></pre>
 <h4 id="_ejemplo_de_json_para_crear_una_reserva">5.1.2. Ejemplo de JSON para crear una reserva</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-json" data-lang="json">{
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
     "user_id": "456"
 }</code></pre>
 </div>
@@ -918,7 +923,7 @@ echo $field2; // Output: value2</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-php" data-lang="php">&lt;?php
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">&lt;?php
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
@@ -954,7 +959,7 @@ function createJsonResponse(ResponseInterface $response, array $data): ResponseI
 
 // Definir las rutas de la aplicación
 $app-&gt;get("/", function (RequestInterface $request, ResponseInterface $response, array $args) {
-    echo file_get_contents('./index.html'); <b class="conum">(1)</b>
+    echo file_get_contents('./index.html'); <i class="conum" data-value="1"></i><b>(1)</b>
 
     return $response;
 });
@@ -970,11 +975,12 @@ $app-&gt;run();</code></pre>
 </div>
 </div>
 <div class="colist arabic">
-<ol>
-<li>
-<p>Devuelve el contenido del archivo <code>index.html</code> en la ruta raíz. Este archivo se utiliza para mostrar la documentación de la API REST.</p>
-</li>
-</ol>
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Devuelve el contenido del archivo <code>index.html</code> en la ruta raíz. Este archivo se utiliza para mostrar la documentación de la API REST.</td>
+</tr>
+</table>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -985,7 +991,7 @@ $app-&gt;run();</code></pre>
 <table>
 <tr>
 <td class="icon">
-<div class="title">Note</div>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
 <div class="paragraph">
@@ -1003,7 +1009,7 @@ $app-&gt;run();</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-php" data-lang="php">// Endpoint de prueba
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">// Endpoint de prueba
 $app-&gt;get($prefix . '/test', function (RequestInterface $request, ResponseInterface $response) {
     $data = [
         'status' =&gt; 200,
@@ -1022,14 +1028,14 @@ $app-&gt;get($prefix . '/test', function (RequestInterface $request, ResponseInt
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">HSET offer:123 product_id 123 discount 30 stock 100 expires_at 1717609200</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">HSET offer:123 product_id 123 discount 30 stock 100 expires_at 1717609200</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
 <table>
 <tr>
 <td class="icon">
-<div class="title">Note</div>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
 <div class="paragraph">
@@ -1041,7 +1047,7 @@ $app-&gt;get($prefix . '/test', function (RequestInterface $request, ResponseInt
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-php" data-lang="php">// Endpoint para crear una nueva oferta
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">// Endpoint para crear una nueva oferta
 $app-&gt;post($prefix . '/offers', function (RequestInterface $request, ResponseInterface $response) use ($redis) {
     $body = $request-&gt;getParsedBody();
     $product_id = $body['product_id'];
@@ -1082,12 +1088,12 @@ $app-&gt;post($prefix . '/offers', function (RequestInterface $request, Response
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">HGETALL offer:123</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">HGETALL offer:123</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-php" data-lang="php">// Endpoint para obtener detalles de una oferta
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">// Endpoint para obtener detalles de una oferta
 $app-&gt;get($prefix . '/offers/{product_id}', function (RequestInterface $request, ResponseInterface $response, array $args) use ($redis) {
     $product_id = $args['product_id'];
     $offer_key = "offer:$product_id";
@@ -1121,7 +1127,7 @@ $app-&gt;get($prefix . '/offers/{product_id}', function (RequestInterface $reque
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">WATCH offer:123:stock
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">WATCH offer:123:stock
 stock = HGET offer:123 stock
 if stock &gt; 0
     MULTI
@@ -1134,7 +1140,7 @@ if stock &gt; 0
 <table>
 <tr>
 <td class="icon">
-<div class="title">Note</div>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
 <div class="paragraph">
@@ -1146,7 +1152,7 @@ if stock &gt; 0
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-php" data-lang="php">// Endpoint para reservar un producto en oferta
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">// Endpoint para reservar un producto en oferta
 $app-&gt;post($prefix . '/offers/{product_id}/reserve', function (RequestInterface $request, ResponseInterface $response, array $args) use ($redis) {
     $product_id = $args['product_id'];
     $body = $request-&gt;getParsedBody();
@@ -1201,12 +1207,12 @@ $app-&gt;post($prefix . '/offers/{product_id}/reserve', function (RequestInterfa
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">LRANGE offer:123:reservations 0 -1</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">LRANGE offer:123:reservations 0 -1</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-php" data-lang="php">// Endpoint para obtener la lista de usuarios con reserva en una oferta
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">// Endpoint para obtener la lista de usuarios con reserva en una oferta
 $app-&gt;get($prefix . '/offers/{product_id}/reservations', function (RequestInterface $request, ResponseInterface $response, array $args) use ($redis) {
     $product_id = $args['product_id'];
     $offer_key = "offer:$product_id:reservations";
@@ -1238,13 +1244,13 @@ $app-&gt;get($prefix . '/offers/{product_id}/reservations', function (RequestInt
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">DEL offer:123
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">DEL offer:123
 DEL offer:123:reservations</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-php" data-lang="php">// Endpoint para eliminar una oferta
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">// Endpoint para eliminar una oferta
 $app-&gt;delete($prefix . '/offers/{product_id}', function (RequestInterface $request, ResponseInterface $response, array $args) use ($redis) {
     $product_id = $args['product_id'];
     $offer_key = "offer:$product_id";
@@ -1278,7 +1284,7 @@ $app-&gt;delete($prefix . '/offers/{product_id}', function (RequestInterface $re
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-php" data-lang="php">// Interceptar todas las rutas no definidas
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">// Interceptar todas las rutas no definidas
 $app-&gt;any('{routes:.+}', function (RequestInterface $request, ResponseInterface $response) {
     $data = [
         'status' =&gt; 404,
@@ -1304,7 +1310,7 @@ $app-&gt;any('{routes:.+}', function (RequestInterface $request, ResponseInterfa
 <p><code>POST /api/offers</code>: Crear una nueva oferta añadiendo los datos siguientes en el cuerpo de la solicitud.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-json" data-lang="json">{
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
     "product_id": "123",
     "discount": "30",
     "stock": "100",
@@ -1330,7 +1336,7 @@ $app-&gt;any('{routes:.+}', function (RequestInterface $request, ResponseInterfa
 <p><code>POST /api/offers/{product_id}/reserve</code>: Reservar un producto en oferta añadiendo los datos siguientes en el cuerpo de la solicitud.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-json" data-lang="json">{
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
     "user_id": "456"
 }</code></pre>
 </div>
@@ -1396,8 +1402,15 @@ $app-&gt;any('{routes:.+}', function (RequestInterface $request, ResponseInterfa
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-02-27 13:32:31 +0100
+Last updated 2025-02-28 20:00:43 +0100
 </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code[data-lang]')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
 </body>
 </html>
